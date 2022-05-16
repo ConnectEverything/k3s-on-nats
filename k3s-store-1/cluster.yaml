@@ -1,0 +1,22 @@
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+metadata:
+  name: store-1
+servers: 1
+agents: 0
+image: rancher/k3s:v1.24.0-rc1-k3s1
+network: nats-distctr_default
+options:
+  k3d:
+    disableLoadbalancer: true
+  k3s:
+    extraArgs:
+      - arg: --disable=traefik
+        nodeFilters:
+          - server:*
+      - arg: --datastore-endpoint=nats://store-1-cluster:store-1-cluster-pass@nats-1:4222/?bucket=store-1-cluster
+        nodeFilters:
+          - server:*
+  kubeconfig:
+    updateDefaultKubeconfig: true
+    switchCurrentContext: true
