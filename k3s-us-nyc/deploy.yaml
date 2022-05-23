@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nats-app
+  labels:
+    app: nats-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nats-app
+  template:
+    metadata:
+      labels:
+        app: nats-app
+    spec:
+      containers:
+      - name: nats-app
+        image: natsio/nats-box:0.11.0
+        env:
+        - name: NATS_URL
+          value: nats://nats-box:nats-box-pass@nats-1.:4222
+        command:
+        - sh
+        args:
+        - -c
+        - |
+          trap "exit 0" SIGINT SIGTERM
+          while true; do
+            quantity="$(shuf -i 1-100 -n 1)"
+            nats pub "inventory.update" '{"name": "NYC", "lat": 40.7128, "lon": -74.0060, "type": "Store", "quantity": "'"$quantity"'"}'
+            for i in $(seq 1 100); do
+              sleep 0.1 
+            done
+          done

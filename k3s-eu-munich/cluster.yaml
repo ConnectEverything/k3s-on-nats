@@ -1,11 +1,11 @@
 apiVersion: k3d.io/v1alpha4
 kind: Simple
 metadata:
-  name: store-1
+  name: eu-munich
 servers: 1
 agents: 0
 image: rancher/k3s:v1.24.0-rc1-k3s1
-network: nats-distctr_default
+network: nats-eu
 options:
   k3d:
     disableLoadbalancer: true
@@ -14,7 +14,13 @@ options:
       - arg: --disable=traefik
         nodeFilters:
           - server:*
-      - arg: --datastore-endpoint=nats://store-1-cluster:store-1-cluster-pass@nats-1:4222/?bucket=store-1-cluster
+      - arg: --disable=metrics-server
+        nodeFilters:
+          - server:*
+      - arg: --disable=local-storage
+        nodeFilters:
+          - server:*
+      - arg: --datastore-endpoint=nats://munich:munich@nats-1:4222/?bucket=eu-munich
         nodeFilters:
           - server:*
   kubeconfig:

@@ -7,7 +7,9 @@ services:
     networks:
     - default
     volumes:
-    - ./${NATS_CONFIG}:/etc/nats/nats-server.conf
+    - ./nats.conf:/etc/nats/nats-server.conf
+    - ./extension-${EXTENSION:-none}.conf:/etc/nats/extension.conf
+    - ./extension-${EXTENSION:-none}.creds:/etc/nats/extension.creds
     - nats-1:/data
 
   nats-box:
@@ -24,7 +26,9 @@ services:
       - trap "exit 0" SIGINT SIGTERM; while true; do sleep 0.1; done
 
 networks:
-  default: {}
+  default:
+    name: nats-eu
+    external: true
 
 volumes:
   nats-1: {}

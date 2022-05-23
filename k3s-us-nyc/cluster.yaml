@@ -1,0 +1,28 @@
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+metadata:
+  name: us-nyc
+servers: 1
+agents: 0
+image: rancher/k3s:v1.24.0-rc1-k3s1
+network: nats-us
+options:
+  k3d:
+    disableLoadbalancer: true
+  k3s:
+    extraArgs:
+      - arg: --disable=traefik
+        nodeFilters:
+          - server:*
+      - arg: --disable=metrics-server
+        nodeFilters:
+          - server:*
+      - arg: --disable=local-storage
+        nodeFilters:
+          - server:*
+      - arg: --datastore-endpoint=nats://nyc:nyc@nats-1:4222/?bucket=us-nyc
+        nodeFilters:
+          - server:*
+  kubeconfig:
+    updateDefaultKubeconfig: true
+    switchCurrentContext: true
