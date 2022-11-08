@@ -3,7 +3,8 @@
 ## Prerequisites
 
 - Recent version of [docker](https://docs.docker.com/engine/install/) with [docker compose plugin](https://docs.docker.com/compose/install/)
-- `k3d` binary - [install instructions](https://k3d.io/v5.4.1/#installation)
+- `k3d` binary - [install instructions](https://k3d.io)
+- If `sysctl fs.inotify.max_user_instances` is set to less than `256`, you may need to increase it by running `sudo sysctl fs.inotify.max_user_instances=256`
 
 ## Instructions
 
@@ -138,8 +139,6 @@ k3d cluster start us-chicago us-la us-nyc
 ```
 
 ## Bonus - EU
-
-**Note**: if `sysctl fs.inotify.max_user_instances` is set to less than `256`, you may need to increase it by running `sudo sysctl fs.inotify.max_user_instances=256`
 
 1. Create `nats` server in EU - Luxembourg:
 
