@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   nats-1:
-    image: nats:2.8.2-alpine
+    image: nats:2.9.6-alpine
     hostname: nats-1
     networks:
     - default
@@ -13,7 +13,7 @@ services:
     - nats-1:/data
 
   nats-box:
-    image: natsio/nats-box:0.11.0
+    image: natsio/nats-box:0.13.2
     hostname: nats-box
     networks:
     - default
